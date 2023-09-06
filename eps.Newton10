@@ -7,6 +7,7 @@ df_x10 = function(x,y,h_t_1,theta){
   (1 + 0.5*(theta[3]+theta[4]*sign(x))*x)*exp(0.5*(theta[1] + theta[2]*h_t_1 + theta[3]*x +theta[4]*(abs(x)) ))
 }
 
+# Newton function
 eps.Newton10 = function(y,h_t_1,theta){
   eps_bar = 0
   # iteration
