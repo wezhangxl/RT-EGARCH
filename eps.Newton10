@@ -1,0 +1,28 @@
+# define some functions to do Newton method
+f_x10 = function(x,y,h_t_1,theta){
+  exp(0.5*(theta[1] + theta[2]*h_t_1 + theta[3]*x +theta[4]*(abs(x)) ))*x -y
+}
+# derivative of f_x
+df_x10 = function(x,y,h_t_1,theta){
+  (1 + 0.5*(theta[3]+theta[4]*sign(x))*x)*exp(0.5*(theta[1] + theta[2]*h_t_1 + theta[3]*x +theta[4]*(abs(x)) ))
+}
+
+eps.Newton10 = function(y,h_t_1,theta){
+  eps_bar = 0
+  # iteration
+  B=50
+  x_ite = rep(0,B)
+  int = 2
+  dif = 1
+  x_ite[1] = 0
+  while(int <=B){
+    x_ite[int] = x_ite[int-1] - f_x10(x_ite[int-1],y,h_t_1,theta)/df_x10(x_ite[int-1],y,h_t_1,theta)
+    dif = abs(x_ite[int] - x_ite[int-1])
+    if ((dif<1e-6|is.na(dif))){
+      break
+    }
+    int = int+1
+  }
+  eps_bar = x_ite[int-1]
+  return(eps_bar)
+}
