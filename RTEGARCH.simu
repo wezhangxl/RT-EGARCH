@@ -1,0 +1,28 @@
+### data generating 
+RTEGARCH.simu = function(n,theta){
+  m = 300
+  # RT-EGARCH(1,0):p=4, RT-EGARCH(1,1):p=6 
+  p=length(theta)
+  eps = rnorm((n+m),0,1)
+  # eps = rt((n+m),df=120)
+  eps = (eps-mean(eps))/sd(eps)
+  y = rep(0,(n+m))
+  h = rep(0,(n+m))
+  sigma = rep(0,(n+m))
+  y = rep(0,(n+m))
+  res = rep(0,(n+m))
+  eps.mean = sqrt(2/pi)
+  h[1] = (theta[1]+theta[4]*eps.mean)/(1-theta[2])
+  for(i in 2:(n+m)){
+    if (p == 4){
+      h[i] = theta[1] + theta[2]*h[i-1] + theta[3]*eps[i] + theta[4]*(abs(eps[i]))
+      sigma[i] = exp(h[i]/2)
+      y[i] = exp(h[i]/2)*eps[i]
+    } else{
+      h[i] = theta[1] + theta[2]*h[i-1] + theta[3]*eps[i] + theta[4]*(abs(eps[i])) + theta[5]*eps[i-1] + theta[6]*(abs(eps[i-1]))  
+      sigma[i] = exp(h[i]/2)
+      y[i] = exp(h[i]/2)*eps[i]
+    }
+  }
+  return(list(y = y[(m+1):(n+m)], h = h[(m+1):(n+m)],sigma = sigma[(m+1):(n+m)],res=eps[(m+1):(n+m)]))
+}
