@@ -9,8 +9,6 @@ RTEGARCH.simu = function(n,theta){
   y = rep(0,(n+m))
   h = rep(0,(n+m))
   sigma = rep(0,(n+m))
-  y = rep(0,(n+m))
-  res = rep(0,(n+m))
   eps.mean = sqrt(2/pi)
   h[1] = (theta[1]+theta[4]*eps.mean)/(1-theta[2])
   for(i in 2:(n+m)){
